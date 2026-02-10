@@ -2,3 +2,24 @@
   background-color: #000;
   opacity: 0.75;
 }
+
+.dialog {
+  background-color: #1e1e1e;
+  padding: 1rem;
+  border: none;
+  border-radius: 16px;
+}
+
+.btn-close-wrapper {
+  text-align: right;
+}
+
+.btn-close {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.dialog .body {
+  padding: 0.625rem 0;
+}

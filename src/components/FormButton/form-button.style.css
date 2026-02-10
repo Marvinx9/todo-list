@@ -1,0 +1,14 @@
+.btn-form {
+  font-size: 1em;
+  line-height: 1.5;
+  font-weight: 400;
+  background-color: #877eed;
+  border: none;
+  border-radius: 24px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+}
+
+.btn-form:hover {
+  background-color: #544acb;
+}
