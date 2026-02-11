@@ -1,29 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TodoContext from "./TodoContext";
 
-export function TodoProvider({ children }) {
-  const initialTodos = [
-    {
-      id: 1,
-      description: "JSX e componentes",
-      completed: false,
-      createdAt: "2022-10-31",
-    },
-    {
-      id: 2,
-      description: "Controle de inputs e formulários controlados",
-      completed: true,
-      createdAt: "2022-10-31",
-    },
-    {
-      id: 3,
-      description: "Rotas dinâmicas",
-      completed: true,
-      createdAt: "2022-10-31",
-    },
-  ];
+const TODOS = "todos";
 
-  const [todos, setTodos] = useState(initialTodos);
+export function TodoProvider({ children }) {
+  const savedTodo = localStorage.getItem(TODOS);
+
+  const [todos, setTodos] = useState(savedTodo ? JSON.parse(savedTodo) : []);
+  const [showDialog, setShowDialog] = useState(false);
+  const [selectedTodo, setSelectedTodo] = useState();
+
+  const openFormTodoDialog = (todo) => {
+    if (todo) {
+      setSelectedTodo(todo);
+    }
+    setShowDialog(true);
+  };
+
+  const closeFormTodoDialog = () => {
+    setSelectedTodo(null);
+    setShowDialog(false);
+  };
+
+  useEffect(() => {
+    localStorage.setItem(TODOS, JSON.stringify(todos));
+  }, [todos]);
 
   const addTodo = (formData) => {
     const description = formData.get("description");
@@ -42,15 +43,17 @@ export function TodoProvider({ children }) {
   const toggleTodoCompleted = (todo) => {
     setTodos((prevState) => {
       return prevState.map((t) =>
-        t.id == todo.id ? { ...t, completed: !t.completed } : t
+        t.id == todo.id ? { ...t, completed: !t.completed } : t,
       );
     });
   };
 
-  const editTodo = (todo) => {
+  const editTodo = (formData) => {
+    const id = formData.get("id");
+    const description = formData.get("description");
     setTodos((prevState) => {
       prevState.map((t) =>
-        t.id == todo.id ? { ...t, description: todo.description } : t
+        t.id == id ? { ...t, description: description } : t,
       );
     });
   };
@@ -63,7 +66,17 @@ export function TodoProvider({ children }) {
 
   return (
     <TodoContext
-      value={{ todos, addTodo, toggleTodoCompleted, editTodo, deleteTodo }}
+      value={{
+        todos,
+        addTodo,
+        toggleTodoCompleted,
+        editTodo,
+        deleteTodo,
+        showDialog,
+        openFormTodoDialog,
+        closeFormTodoDialog,
+        selectedTodo,
+      }}
     >
       {children}
     </TodoContext>
