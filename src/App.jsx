@@ -23,7 +23,7 @@ function App() {
   } = use(TodoContext);
 
   const handleFormSubmit = (formData) => {
-    formData.get("id") ? editTodo(formData) : addTodo(formData);
+    selectedTodo ? editTodo(formData) : addTodo(formData);
     closeFormTodoDialog();
   };
 
@@ -51,7 +51,7 @@ function App() {
                 defaultValue={selectedTodo?.description}
               />
             </Dialog>
-            <FabButton onClick={openFormTodoDialog}>
+            <FabButton onClick={() => openFormTodoDialog()}>
               <IconPlus />
             </FabButton>
           </Footer>
