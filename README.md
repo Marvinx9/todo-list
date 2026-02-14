@@ -31,8 +31,8 @@ npm install
 npm run dev
 ```
 
-Projeto em ambiente público por meio da Vercel em:
+Projeto em ambiente de testes em:
 
 ```bash
-
+https://todo-list-gamma-nine-71.vercel.app/
 ```
